@@ -10,6 +10,8 @@ Probability Density Function
 	<br>
 </div>
 
+where `lambda` and `k` are the respective [scale](https://en.wikipedia.org/wiki/Scale_parameter) and [shape](https://en.wikipedia.org/wiki/Shape_parameter) parameters of the distribution.
+
 
 ## Installation
 
