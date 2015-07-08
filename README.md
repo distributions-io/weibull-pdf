@@ -4,6 +4,8 @@ Probability Density Function
 
 > [Weibull](https://en.wikipedia.org/wiki/Weibull_distribution) distribution probability density function (PDF).
 
+The [probability density function](https://en.wikipedia.org/wiki/Probability_density_function) (PDF) for a [Weibull](https://en.wikipedia.org/wiki/Weibull_distribution) random variable is
+
 <div class="equation" align="center" data-raw-text="
     f(x;\lambda,k) = \begin{cases} \frac{k}{\lambda}\left (\frac{x}{\lambda} \right)^{k-1}e^{-(x/\lambda)^k} &amp; x \geq 0 \\ 0 &amp; x < 0\end{cases}" data-equation="eq:error_function">
 	<img src="https://cdn.rawgit.com/distributions-io/weibull-pdf/142ab451150bdb73ccf5f258ddf3dcb6c59153e9/docs/img/eqn.svg" alt="Probability density function (PDF) for a Weibull distribution.">
