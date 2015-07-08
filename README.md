@@ -27,7 +27,43 @@ var pdf = require( 'distributions-weibull-pdf' );
 Evaluates the [probability density function](https://en.wikipedia.org/wiki/Probability_density_function) (PDF) for the [Weibull](https://en.wikipedia.org/wiki/Weibull_distribution) distribution. `x` may be either a [`number`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number), an [`array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array), a [`typed array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays), or a [`matrix`](https://github.com/dstructs/matrix).
 
 ``` javascript
+var matrix = require( 'dstructs-matrix' ),
+	mat,
+	out,
+	x,
+	i;
 
+out = pdf( 1 );
+// returns 
+
+out = pdf( -1 );
+// returns 0
+
+x = [ 0, 0.5, 1, 1.5, 2, 2.5 ];
+out = pdf( x );
+// returns [...]
+
+x = new Int8Array( x );
+out = pdf( x );
+// returns Float64Array( [...] )
+
+x = new Int16Array( 6 );
+for ( i = 0; i < 6; i++ ) {
+	x[ i ] = i*0.5;
+}
+mat = matrix( x, [3,2], 'int16' );
+/*
+	[ 0  0.5
+	  1  1.5
+	  2  2.5 ]
+*/
+
+out = pdf( mat );
+/*
+	[ 
+	  
+	   ]
+*/
 ```
 
 The function accepts the following `options`:
@@ -40,29 +76,129 @@ The function accepts the following `options`:
 *	__path__: [deepget](https://github.com/kgryte/utils-deep-get)/[deepset](https://github.com/kgryte/utils-deep-set) key path.
 *	__sep__: [deepget](https://github.com/kgryte/utils-deep-get)/[deepset](https://github.com/kgryte/utils-deep-set) key path separator. Default: `'.'`.
 
+A [Weibull](https://en.wikipedia.org/wiki/Weibull_distribution) is a function of two parameters: `lambda` ([scale](https://en.wikipedia.org/wiki/Scale_parameter) parameter) and `k` ([shape](https://en.wikipedia.org/wiki/Shape_parameter) parameter). By default, both parameters are equal to `1`. To adjust either parameter, set the corresponding option(s).
+
+``` javascript
+var x = [ 0, 0.5, 1, 1.5, 2, 2.5 ];
+
+var out = pdf( x, {
+	'lambda': 2,
+	'k': 5	
+});
+// returns [...]
+```
+
 For non-numeric `arrays`, provide an accessor `function` for accessing `array` values.
 
 ``` javascript
+var data = [
+	[0,0],
+	[1,0.5],
+	[2,1],
+	[3,1.5],
+	[4,2],
+	[5,2.5]
+];
 
+function getValue( d, i ) {
+	return d[ 1 ];
+}
+
+var out = pdf( data, {
+	'accessor': getValue
+});
+// returns [...]
 ```
 
 
 To [deepset](https://github.com/kgryte/utils-deep-set) an object `array`, provide a key path and, optionally, a key path separator.
 
 ``` javascript
+var data = [
+	{'x':[0,0]},
+	{'x':[1,0.5]},
+	{'x':[2,1]},
+	{'x':[3,1.5]},
+	{'x':[4,2]},
+	{'x':[5,2.5]}
+];
 
+var out = pdf( data, 'x|1', '|' );
+/*
+	[
+		{'x':[0,]},
+		{'x':[1,]},
+		{'x':[2,]},
+		{'x':[3,]},
+		{'x':[4,]},
+		{'x':[5,]}
+	]
+*/
+
+var bool = ( data === out );
+// returns true
 ```
 
 By default, when provided a [`typed array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays) or [`matrix`](https://github.com/dstructs/matrix), the output data structure is `float64` in order to preserve precision. To specify a different data type, set the `dtype` option (see [`matrix`](https://github.com/dstructs/matrix) for a list of acceptable data types).
 
 ``` javascript
+var x, out;
 
+x = new Int8Array( [0,1,2,3,4] );
+
+out = pdf( x, {
+	'dtype': 'int32'
+});
+// returns Int32Array( [...] )
+
+// Works for plain arrays, as well...
+out = pdf( [0,0.5,1,1.5,2], {
+	'dtype': 'uint8'
+});
+// returns Uint8Array( [...] )
 ```
 
 By default, the function returns a new data structure. To mutate the input data structure (e.g., when input values can be discarded or when optimizing memory usage), set the `copy` option to `false`.
 
 ``` javascript
+var bool,
+	mat,
+	out,
+	x,
+	i;
 
+x = [ 0, 0.5, 1, 1.5, 2 ];
+
+out = pdf( x, {
+	'copy': false
+});
+// returns [...]
+
+bool = ( x === out );
+// returns true
+
+x = new Int16Array( 6 );
+for ( i = 0; i < 6; i++ ) {
+	x[ i ] = i*0.5;
+}
+mat = matrix( x, [3,2], 'int16' );
+/*
+	[ 0  0.5
+	  1  1.5
+	  2  2.5 ]
+*/
+
+out = pdf( mat, {
+	'copy': false
+});
+/*
+	[ 
+	  
+	   ]
+*/
+
+bool = ( mat === out );
+// returns true
 ```
 
 
