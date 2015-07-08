@@ -4,7 +4,11 @@ Probability Density Function
 
 > [Weibull](https://en.wikipedia.org/wiki/Weibull_distribution) distribution probability density function (PDF).
 
-[insert eqn]
+<div class="equation" align="center" data-raw-text="
+    f(x;\lambda,k) = \begin{cases} \frac{k}{\lambda}\left (\frac{x}{\lambda} \right)^{k-1}e^{-(x/\lambda)^k} &amp; x \geq 0 \\ 0 &amp; x < 0\end{cases}" data-equation="eq:error_function">
+	<img src="" alt="Probability density function (PDF) for a Weibull distribution.">
+	<br>
+</div>
 
 
 ## Installation
