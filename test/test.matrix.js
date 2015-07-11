@@ -9,6 +9,9 @@ var // Expectation library:
 	// Matrix data structure:
 	matrix = require( 'dstructs-matrix' ),
 
+	// Deep close to:
+	deepCloseTo = require( './utils/deepcloseto.js' ),
+
 	// Module to be tested:
 	pdf = require( './../lib/matrix.js' );
 
@@ -31,16 +34,21 @@ describe( 'matrix pdf', function tests() {
 		d2,
 		i;
 
-	d1 = new Int16Array( 25 );
-	d2 = new Int16Array( 25 );
+	d1 = new Int16Array( 6 );
+	d2 = new Int16Array( 6 );
 	for ( i = 0; i < d1.length; i++ ) {
-		d1[ i ] = i*i;
-		d2[ i ] = i;
+		d1[ i ] = i * 0.5;
 	}
+	d2[ 0 ] = Number.POSITIVE_INFINITY;
+	d2[ 1 ] = 0.3032653;
+	d2[ 2 ] = 0.1743261;
+	d2[ 3 ] = 0.1214225;
+	d2[ 4 ] = 0.09196986;
+	d2[ 5 ] = 0.07310196;
 
 	beforeEach( function before() {
-		mat = matrix( d1, [5,5], 'int16' );
-		out = matrix( d2, [5,5], 'int16' );
+		mat = matrix( d1, [3,2], 'int16' );
+		out = matrix( d2, [3,2], 'int16' );
 	});
 
 	it( 'should export a function', function test() {
@@ -57,10 +65,10 @@ describe( 'matrix pdf', function tests() {
 	it( 'should evaluate the probability density function for each matrix element', function test() {
 		var actual;
 
-		actual = matrix( [5,5], 'int16' );
+		actual = matrix( [3,2], 'int16' );
 		actual = pdf( actual, mat, lambda, k );
 
-		assert.deepEqual( actual.data, out.data );
+		assert.isTrue( deepCloseTo( actual.data, out.data, 1e-7 ) );
 	});
 
 	it( 'should return an empty matrix if provided an empty matrix', function test() {

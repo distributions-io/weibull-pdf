@@ -12,6 +12,9 @@ var // Expectation library:
 	// Validate a value is NaN:
 	isnan = require( 'validate.io-nan' ),
 
+	// Deep close to:
+	deepCloseTo = require( './utils/deepcloseto.js' ),
+
 	// Module to be tested:
 	pdf = require( './../lib' );
 
@@ -126,7 +129,7 @@ describe( 'distributions-weibull-pdf', function tests() {
 
 	it( 'should evaluate the probability density function when provided a number', function test() {
 		assert.strictEqual( pdf( 0 ), 1 );
-		assert.strictEqual( pdf( 2.25 ), 0 );
+		assert.closeTo( pdf( 2.25 ), 0.1053992, 1e-7 );
 
 		assert.isTrue( isnan( pdf( NaN ) ) );
 	});
@@ -135,29 +138,41 @@ describe( 'distributions-weibull-pdf', function tests() {
 		var data, actual, expected;
 
 		data = [ 0, 0.5, 1, 1.5, 2 ];
-		expected = [];
+		expected = [
+			1,
+			0.6065307,
+			0.3678794,
+			0.2231302,
+			0.1353353
+		];
 
 		actual = pdf( data );
 		assert.notEqual( actual, data );
-		assert.deepEqual( actual, expected );
+		assert.isTrue( deepCloseTo( actual, expected, 1e-7 ) );
 
 		// Mutate...
 		actual = pdf( data, {
 			'copy': false
 		});
 		assert.strictEqual( actual, data );
-		assert.deepEqual( data, expected );
+		assert.isTrue( deepCloseTo( data, expected, 1e-7 ) );
 	});
 
 	it( 'should evaluate the probability density function when provided a typed array', function test() {
 		var data, actual, expected;
 
 		data = new Int8Array( [ 0, 1, 2, 3, 4 ] );
-		expected = new Float64Array( [] );
+		expected = new Float64Array( [
+			1,
+			0.3678794,
+			0.1353353,
+			0.04978707,
+			0.01831564
+		]);
 
 		actual = pdf( data );
 		assert.notEqual( actual, data );
-		assert.deepEqual( actual, expected );
+		assert.isTrue( deepCloseTo( actual, expected, 1e-7 ) );
 
 		// Mutate:
 		actual = pdf( data, {
@@ -190,15 +205,21 @@ describe( 'distributions-weibull-pdf', function tests() {
 			[1,0.5],
 			[2,1],
 			[3,1.5],
-			[4,2.5]
+			[4,2]
 		];
-		expected = [];
+		expected = [
+			1,
+			0.6065307,
+			0.3678794,
+			0.2231302,
+			0.1353353
+		];
 
 		actual = pdf( data, {
 			'accessor': getValue
 		});
 		assert.notEqual( actual, data );
-		assert.deepEqual( actual, expected );
+		assert.isTrue( deepCloseTo( actual, expected, 1e-7 ) );
 
 		// Mutate:
 		actual = pdf( data, {
@@ -206,14 +227,14 @@ describe( 'distributions-weibull-pdf', function tests() {
 			'copy': false
 		});
 		assert.strictEqual( actual, data );
-		assert.deepEqual( data, expected );
+		assert.isTrue( deepCloseTo( data, expected, 1e-7 ) );
 
 		function getValue( d ) {
 			return d[ 1 ];
 		}
 	});
 
-	it( 'should evaluate the principal square root and deep set', function test() {
+	it( 'should evaluate the probability density function and deep set', function test() {
 		var data, actual, expected;
 
 		data = [
@@ -224,18 +245,18 @@ describe( 'distributions-weibull-pdf', function tests() {
 			{'x':[4,2]}
 		];
 		expected = [
-			{'x':[0,0]},
-			{'x':[1,0]},
-			{'x':[2,0]},
-			{'x':[3,0]},
-			{'x':[4,0]}
+			{'x':[0,1]},
+			{'x':[1,0.6065307]},
+			{'x':[2,0.3678794]},
+			{'x':[3,0.2231302]},
+			{'x':[4,0.1353353]}
 		];
 
 		actual = pdf( data, {
 			'path': 'x.1'
 		});
 		assert.strictEqual( actual, data );
-		assert.deepEqual( actual, expected );
+		assert.isTrue( deepCloseTo( actual, expected, 1e-7 ) );
 
 		// Specify a path with a custom separator...
 		data = [
@@ -251,7 +272,7 @@ describe( 'distributions-weibull-pdf', function tests() {
 			'sep': '/'
 		});
 		assert.strictEqual( actual, data );
-		assert.deepEqual( actual, expected );
+		assert.isTrue( deepCloseTo( actual, expected, 1e-7 ) );
 	});
 
 	it( 'should evaluate the probability density function when provided a matrix', function test() {
@@ -267,8 +288,6 @@ describe( 'distributions-weibull-pdf', function tests() {
 		d3 = new Int16Array( 6 );
 		for ( i = 0; i < d1.length; i++ ) {
 			d1[ i ] = i * 0.5;
-			d2[ i ] = i;
-			d3[ i ] = i;
 		}
 		mat = matrix( d1, [3,2], 'int16' );
 		out = pdf( mat );

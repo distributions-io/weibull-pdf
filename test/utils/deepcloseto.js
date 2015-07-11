@@ -7,6 +7,26 @@
 // MODULES //
 
 
+// FUNCTIONS //
+
+/**
+* FUNCTION: closeTo( x, y, eps )
+*	Validates if two input values `x` and `y` are equal within an acceptable tolerance.
+*
+* @private
+* @param {Number} x - input value
+* @param {Number} y - input value
+* @returns {Boolean} boolean indicating whether the inputs are equal to within an acceptable tolerance
+*/
+function closeTo( x, y, eps ) {
+	var delta = x - y;
+	if ( delta < 0 ) {
+		delta = -delta;
+	}
+	return ( delta <= eps );
+} // end FUNCTION closeTo()
+
+
 // DEEP CLOSE TO //
 
 /**
@@ -19,19 +39,30 @@
 * @returns {Boolean} boolean indicating whether the inputs are recursively equal to within an acceptable tolerance
 */
 function deepCloseTo( x, y, eps ) {
-	var len = x.length,
-		delta,
+	var keys,
+		bool,
+		key,
+		len,
 		i;
 
-	if ( y.length !== len ) {
+	if ( typeof x !== 'object' ) {
+		if ( typeof x === 'number' && typeof y === 'number' ) {
+			return closeTo( x, y, eps );
+		}
+		return x === y;
+	}
+	if ( typeof y !== 'object' ) {
+		return false;
+	}
+	keys = Object.keys( x );
+	len = keys.length;
+	if ( Object.keys( y ).length !== len ) {
 		return false;
 	}
 	for ( i = 0; i < len; i++ ) {
-		delta = x[ i ] - y[ i ];
-		if ( delta < 0 ) {
-			delta = -delta;
-		}
-		if ( delta > eps ) {
+		key = keys[ i ];
+		bool = deepCloseTo( x[ key ], y[ key ], eps );
+		if ( bool === false ) {
 			return false;
 		}
 	}
