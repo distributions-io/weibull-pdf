@@ -117,7 +117,7 @@ describe( 'distributions-weibull-pdf', function tests() {
 			true,
 			undefined,
 			null,
-			// NaN, // allowed
+			NaN,
 			function(){},
 			{}
 		];
@@ -284,15 +284,23 @@ describe( 'distributions-weibull-pdf', function tests() {
 			i;
 
 		d1 = new Int16Array( 6 );
-		d2 = new Float64Array( 6 );
-		d3 = new Int16Array( 6 );
 		for ( i = 0; i < d1.length; i++ ) {
 			d1[ i ] = i * 0.5;
 		}
+		d2 = new Float64Array( 6 );
+		d2[ 0 ] = 1;
+		d2[ 1 ] = 1;
+		d2[ 2 ] = 0.3678794;
+		d2[ 3 ] = 0.3678794;
+		d2[ 4 ] = 0.1353353;
+		d2[ 5 ] = 0.1353353;
+
+		d3 = new Int16Array([1,1,0,0,0,0]);
+
 		mat = matrix( d1, [3,2], 'int16' );
 		out = pdf( mat );
 
-		assert.deepEqual( out.data, d2 );
+		assert.isTrue( deepCloseTo( out.data, d2, 1e-7 ) );
 
 		// Mutate...
 		out = pdf( mat, {
@@ -310,18 +318,24 @@ describe( 'distributions-weibull-pdf', function tests() {
 			i;
 
 		d1 = new Int16Array( 6 );
-		d2 = new Float32Array( 6 );
 		for ( i = 0; i < d1.length; i++ ) {
 			d1[ i ] = i * 0.5;
-			d2[ i ] = i;
 		}
+		d2 = new Float32Array( 6 );
+		d2[ 0 ] = 1;
+		d2[ 1 ] = 1;
+		d2[ 2 ] = 0.3678794;
+		d2[ 3 ] = 0.3678794;
+		d2[ 4 ] = 0.1353353;
+		d2[ 5 ] = 0.1353353;
+
 		mat = matrix( d1, [3,2], 'int16' );
 		out = pdf( mat, {
 			'dtype': 'float32'
 		});
 
 		assert.strictEqual( out.dtype, 'float32' );
-		assert.deepEqual( out.data, d2 );
+		assert.isTrue( deepCloseTo( out.data, d2, 1e-7 ) );
 	});
 
 	it( 'should return an empty data structure if provided an empty data structure', function test() {
