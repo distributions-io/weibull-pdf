@@ -29,8 +29,8 @@ describe( 'number pdf', function tests() {
 
 	it( 'should evaluate the probability density function', function test() {
 		assert.strictEqual( pdf( 0, lambda, k ), 0 );
-		assert.closeTo( pdf( 2.25, lambda, k ), 0.1317631, 1e-7 );
-		assert.closeTo( pdf( Math.PI, lambda, k ), 0.1821106, 1e-7 );
+		assert.closeTo( pdf( 2.25, lambda, k ), 0.131763075128903, 1e-15 );
+		assert.closeTo( pdf( Math.PI, lambda, k ), 0.1821106151908609, 1e-15 );
 	});
 
 	it( 'should return `0` if provided a negative number', function test() {

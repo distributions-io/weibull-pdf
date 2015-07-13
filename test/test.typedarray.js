@@ -38,14 +38,14 @@ describe( 'typed-array pdf', function tests() {
 
 		actual = pdf( actual, data, lambda, k );
 		expected = new Float64Array( [
-			0.03705276,
-			0.1556811,
-			0.2856627,
-			0.2952233,
-			0.1697034
+			0.03705275867645935,
+			0.1556810607472769,
+			0.2856626901113773,
+			0.2952232515400824,
+			0.1697033786940394
 		]);
 
-		assert.isTrue( deepCloseTo( actual, expected, 1e-7 ) );
+		assert.isTrue( deepCloseTo( actual, expected, 1e-15 ) );
 	});
 
 	it( 'should return an empty array if provided an empty array', function test() {

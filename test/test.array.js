@@ -37,9 +37,16 @@ describe( 'array pdf', function tests() {
 		actual = new Array( data.length );
 
 		actual = pdf( actual, data, lambda, k );
-		expected = [ 0, 0.09229654, 0.3309363, 0.5533448, 0.5518192, 0.3324144 ];
+		expected = [
+			0,
+			0.09229654096925705,
+			0.3309363384692233,
+			0.5533447595103295,
+			0.5518191617571635,
+			0.332414435360959
+		];
 
-		assert.isTrue( deepCloseTo( actual, expected, 1e-7 ) );
+		assert.isTrue( deepCloseTo( actual, expected, 1e-15 ) );
 	});
 
 	it( 'should return an empty array if provided an empty array', function test() {

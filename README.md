@@ -358,7 +358,15 @@ $ make test-cov
 Istanbul creates a `./reports/coverage` directory. To access an HTML version of the report,
 
 ``` bash
-$ open reports/coverage/lcov-report/index.html
+$ make view-cov
+```
+
+### Notes
+
+This implementation was tested against its [`R`](http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Weibull.html) counterpart. To generate the [`R`](http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Weibull.html) results,
+
+``` bash
+$ Rscript ./test/runner.R
 ```
 
 

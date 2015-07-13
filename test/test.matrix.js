@@ -35,16 +35,17 @@ describe( 'matrix pdf', function tests() {
 		i;
 
 	d1 = new Int16Array( 6 );
-	d2 = new Int16Array( 6 );
 	for ( i = 0; i < d1.length; i++ ) {
 		d1[ i ] = i * 0.5;
 	}
-	d2[ 0 ] = Number.POSITIVE_INFINITY;
-	d2[ 1 ] = 0.3032653;
-	d2[ 2 ] = 0.1743261;
-	d2[ 3 ] = 0.1214225;
-	d2[ 4 ] = 0.09196986;
-	d2[ 5 ] = 0.07310196;
+	d2 = new Int16Array([
+		Number.POSITIVE_INFINITY,
+		0.3032653298563167,
+		0.1743261076381756,
+		0.1214225426344453,
+		0.09196986029286058,
+		0.07310195813396032
+	]);
 
 	beforeEach( function before() {
 		mat = matrix( d1, [3,2], 'int16' );
@@ -68,7 +69,7 @@ describe( 'matrix pdf', function tests() {
 		actual = matrix( [3,2], 'int16' );
 		actual = pdf( actual, mat, lambda, k );
 
-		assert.isTrue( deepCloseTo( actual.data, out.data, 1e-7 ) );
+		assert.isTrue( deepCloseTo( actual.data, out.data, 1e-15 ) );
 	});
 
 	it( 'should return an empty matrix if provided an empty matrix', function test() {

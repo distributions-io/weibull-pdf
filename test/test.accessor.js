@@ -44,9 +44,16 @@ describe( 'accessor pdf', function tests() {
 		actual = new Array( data.length );
 
 		actual = pdf( actual, data, lambda, k, getValue );
-		expected = [ 1, 0.6065307, 0.3678794, 0.2231302, 0.1353353, 0.082085 ];
+		expected = [
+			1,
+			0.6065306597126334,
+			0.3678794411714423,
+			0.2231301601484298,
+			0.1353352832366127,
+			0.0820849986238988
+		];
 
-		assert.isTrue( deepCloseTo( actual, expected, 1e-7 ) );
+		assert.isTrue( deepCloseTo( actual, expected, 1e-15 ) );
 
 		function getValue( d ) {
 			return d.x;

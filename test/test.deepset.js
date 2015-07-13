@@ -45,14 +45,14 @@ describe( 'deepset pdf', function tests() {
 		data = pdf( data, lambda, k, 'x' );
 		expected = [
 			{'x':0},
-			{'x':0.7447834},
-			{'x':0.5518192},
-			{'x':0.2926085},
-			{'x':0.1253822},
-			{'x':0.0455367}
+			{'x':0.7447833764388441},
+			{'x':0.5518191617571635},
+			{'x':0.2926085280890846},
+			{'x':0.1253822226031581},
+			{'x':0.04553670380573225}
 		];
 
-		assert.isTrue( deepCloseTo( data, expected, 1e-7 ) );
+		assert.isTrue( deepCloseTo( data, expected, 1e-15 ) );
 
 		// Custom separator...
 		data = [
@@ -67,14 +67,14 @@ describe( 'deepset pdf', function tests() {
 		data = pdf( data, lambda, k, 'x/1', '/' );
 		expected = [
 			{'x':[9,0]},
-			{'x':[9,0.7447834]},
-			{'x':[9,0.5518192]},
-			{'x':[9,0.2926085]},
-			{'x':[9,0.1253822]},
-			{'x':[9,0.0455367]}
+			{'x':[9,0.7447833764388441]},
+			{'x':[9,0.5518191617571635]},
+			{'x':[9,0.2926085280890846]},
+			{'x':[9,0.1253822226031581]},
+			{'x':[9,0.04553670380573225]}
 		];
 
-		assert.isTrue( deepCloseTo( data, expected, 1e-7 ), 'custom separator' );
+		assert.isTrue( deepCloseTo( data, expected, 1e-15 ), 'custom separator' );
 	});
 
 	it( 'should return an empty array if provided an empty array', function test() {

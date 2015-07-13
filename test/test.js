@@ -129,7 +129,7 @@ describe( 'distributions-weibull-pdf', function tests() {
 
 	it( 'should evaluate the probability density function when provided a number', function test() {
 		assert.strictEqual( pdf( 0 ), 1 );
-		assert.closeTo( pdf( 2.25 ), 0.1053992, 1e-7 );
+		assert.closeTo( pdf( 2.25 ), 0.1053992245618643, 1e-15 );
 
 		assert.isTrue( isnan( pdf( NaN ) ) );
 	});
@@ -140,22 +140,22 @@ describe( 'distributions-weibull-pdf', function tests() {
 		data = [ 0, 0.5, 1, 1.5, 2 ];
 		expected = [
 			1,
-			0.6065307,
-			0.3678794,
-			0.2231302,
-			0.1353353
+			0.6065306597126334,
+			0.3678794411714423,
+			0.2231301601484298,
+			0.1353352832366127
 		];
 
 		actual = pdf( data );
 		assert.notEqual( actual, data );
-		assert.isTrue( deepCloseTo( actual, expected, 1e-7 ) );
+		assert.isTrue( deepCloseTo( actual, expected, 1e-15 ) );
 
 		// Mutate...
 		actual = pdf( data, {
 			'copy': false
 		});
 		assert.strictEqual( actual, data );
-		assert.isTrue( deepCloseTo( data, expected, 1e-7 ) );
+		assert.isTrue( deepCloseTo( data, expected, 1e-15 ) );
 	});
 
 	it( 'should evaluate the probability density function when provided a typed array', function test() {
@@ -164,15 +164,15 @@ describe( 'distributions-weibull-pdf', function tests() {
 		data = new Int8Array( [ 0, 1, 2, 3, 4 ] );
 		expected = new Float64Array( [
 			1,
-			0.3678794,
-			0.1353353,
-			0.04978707,
-			0.01831564
+			0.3678794411714423,
+			0.1353352832366127,
+			0.04978706836786394,
+			0.01831563888873418
 		]);
 
 		actual = pdf( data );
 		assert.notEqual( actual, data );
-		assert.isTrue( deepCloseTo( actual, expected, 1e-7 ) );
+		assert.isTrue( deepCloseTo( actual, expected, 1e-15 ) );
 
 		// Mutate:
 		actual = pdf( data, {
@@ -209,17 +209,17 @@ describe( 'distributions-weibull-pdf', function tests() {
 		];
 		expected = [
 			1,
-			0.6065307,
-			0.3678794,
-			0.2231302,
-			0.1353353
+			0.6065306597126334,
+			0.3678794411714423,
+			0.2231301601484298,
+			0.1353352832366127
 		];
 
 		actual = pdf( data, {
 			'accessor': getValue
 		});
 		assert.notEqual( actual, data );
-		assert.isTrue( deepCloseTo( actual, expected, 1e-7 ) );
+		assert.isTrue( deepCloseTo( actual, expected, 1e-15 ) );
 
 		// Mutate:
 		actual = pdf( data, {
@@ -227,7 +227,7 @@ describe( 'distributions-weibull-pdf', function tests() {
 			'copy': false
 		});
 		assert.strictEqual( actual, data );
-		assert.isTrue( deepCloseTo( data, expected, 1e-7 ) );
+		assert.isTrue( deepCloseTo( data, expected, 1e-15 ) );
 
 		function getValue( d ) {
 			return d[ 1 ];
@@ -246,17 +246,17 @@ describe( 'distributions-weibull-pdf', function tests() {
 		];
 		expected = [
 			{'x':[0,1]},
-			{'x':[1,0.6065307]},
-			{'x':[2,0.3678794]},
-			{'x':[3,0.2231302]},
-			{'x':[4,0.1353353]}
+			{'x':[1,0.6065306597126334]},
+			{'x':[2,0.3678794411714423]},
+			{'x':[3,0.2231301601484298]},
+			{'x':[4,0.1353352832366127]}
 		];
 
 		actual = pdf( data, {
 			'path': 'x.1'
 		});
 		assert.strictEqual( actual, data );
-		assert.isTrue( deepCloseTo( actual, expected, 1e-7 ) );
+		assert.isTrue( deepCloseTo( actual, expected, 1e-15 ) );
 
 		// Specify a path with a custom separator...
 		data = [
@@ -272,7 +272,7 @@ describe( 'distributions-weibull-pdf', function tests() {
 			'sep': '/'
 		});
 		assert.strictEqual( actual, data );
-		assert.isTrue( deepCloseTo( actual, expected, 1e-7 ) );
+		assert.isTrue( deepCloseTo( actual, expected, 1e-15 ) );
 	});
 
 	it( 'should evaluate the probability density function when provided a matrix', function test() {
@@ -287,20 +287,21 @@ describe( 'distributions-weibull-pdf', function tests() {
 		for ( i = 0; i < d1.length; i++ ) {
 			d1[ i ] = i * 0.5;
 		}
-		d2 = new Float64Array( 6 );
-		d2[ 0 ] = 1;
-		d2[ 1 ] = 1;
-		d2[ 2 ] = 0.3678794;
-		d2[ 3 ] = 0.3678794;
-		d2[ 4 ] = 0.1353353;
-		d2[ 5 ] = 0.1353353;
+		d2 = new Float64Array([
+			1,
+			1,
+			0.3678794411714423,
+			0.3678794411714423,
+			0.1353352832366127,
+			0.1353352832366127
+		]);
 
 		d3 = new Int16Array([1,1,0,0,0,0]);
 
 		mat = matrix( d1, [3,2], 'int16' );
 		out = pdf( mat );
 
-		assert.isTrue( deepCloseTo( out.data, d2, 1e-7 ) );
+		assert.isTrue( deepCloseTo( out.data, d2, 1e-15 ) );
 
 		// Mutate...
 		out = pdf( mat, {
@@ -321,13 +322,14 @@ describe( 'distributions-weibull-pdf', function tests() {
 		for ( i = 0; i < d1.length; i++ ) {
 			d1[ i ] = i * 0.5;
 		}
-		d2 = new Float32Array( 6 );
-		d2[ 0 ] = 1;
-		d2[ 1 ] = 1;
-		d2[ 2 ] = 0.3678794;
-		d2[ 3 ] = 0.3678794;
-		d2[ 4 ] = 0.1353353;
-		d2[ 5 ] = 0.1353353;
+		d2 = new Float32Array([
+			1,
+			1,
+			0.3678794411714423,
+			0.3678794411714423,
+			0.1353352832366127,
+			0.1353352832366127
+		]);
 
 		mat = matrix( d1, [3,2], 'int16' );
 		out = pdf( mat, {
@@ -335,7 +337,7 @@ describe( 'distributions-weibull-pdf', function tests() {
 		});
 
 		assert.strictEqual( out.dtype, 'float32' );
-		assert.isTrue( deepCloseTo( out.data, d2, 1e-7 ) );
+		assert.isTrue( deepCloseTo( out.data, d2, 1e-9 ) );
 	});
 
 	it( 'should return an empty data structure if provided an empty data structure', function test() {
