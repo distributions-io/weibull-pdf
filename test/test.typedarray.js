@@ -44,7 +44,7 @@ describe( 'typed-array pdf', function tests() {
 			0.2952232515400824,
 			0.1697033786940394
 		]);
-console.log( actual, expected );
+
 		assert.isTrue( deepCloseTo( actual, expected, 1e-15 ) );
 	});
 

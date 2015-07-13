@@ -30,30 +30,55 @@ function closeTo( x, y, eps ) {
 // DEEP CLOSE TO //
 
 /**
-* FUNCTION: deepCloseTo( x, y, eps )
+* FUNCTION: deepCloseTo( x, y, eps[, options] )
 *	Validates if two input values `x` and `y` are equal to within an acceptable tolerance using a recursive algorithm. For objects, properties having numeric values are considered acceptably equal if the values differ by less than an allowable tolerance (epsilon).
 *
 * @param {*} x - input value
 * @param {*} y - input value
 * @param {Number} eps - epsilon
+* @param {Object} [options] - function options
+* @param {Boolean} [options.strict=true] - boolean indicating whether to require strict equality for non-numeric values
 * @returns {Boolean} boolean indicating whether the inputs are recursively equal to within an acceptable tolerance
 */
-function deepCloseTo( x, y, eps ) {
-	var keys,
+function deepCloseTo( x, y, eps, options ) {
+	/* jshint eqeqeq:true */
+	var type = typeof x,
+		opts,
+		keys,
 		bool,
 		key,
 		len,
 		i;
 
-	if ( typeof x !== 'object' ) {
-		if ( typeof x === 'number' && typeof y === 'number' ) {
-			return closeTo( x, y, eps );
+	if ( arguments.length > 3 ) {
+		opts = options;
+	} else {
+		opts = {};
+	}
+	// All identical values are equivalent...
+	if ( x === y ) {
+		return true;
+	}
+	// If both values are numbers, compare them...
+	else if ( type === 'number' && typeof y === 'number' ) {
+		// Handle case where both values are NaN...
+		if ( x !== x && y !== y ) {
+			return true;
 		}
-		return x === y;
+		return closeTo( x, y, eps );
 	}
-	if ( typeof y !== 'object' ) {
-		return false;
+	// Handle dates...
+	else if ( x instanceof Date && y instanceof Date ) {
+		return closeTo( x.getTime(), y.getTime(), eps );
 	}
+	// Handle case where both values are non-objects and failed equality...
+	else if ( type !== 'object' && typeof y !== 'object' ) {
+		/* jshint eqeqeq:false */
+		return ( opts.strict === false ) ? x == y : false;
+	}
+	/* jshint eqeqeq:true */
+
+
 	keys = Object.keys( x );
 	len = keys.length;
 	if ( Object.keys( y ).length !== len ) {

@@ -55,11 +55,11 @@ x = new Int8Array( x );
 out = pdf( x );
 // returns Float64Array( [ 1, 1, ~0.3679, ~0.3679, ~0.1353, ~0.1353 ] )
 
-x = new Int16Array( 6 );
+x = new Float32Array( 6 );
 for ( i = 0; i < 6; i++ ) {
 	x[ i ] = i * 0.5;
 }
-mat = matrix( x, [3,2], 'int16' );
+mat = matrix( x, [3,2], 'float32' );
 /*
 	[ 0  0.5
 	  1  1.5
@@ -185,11 +185,11 @@ out = pdf( x, {
 bool = ( x === out );
 // returns true
 
-x = new Int16Array( 6 );
+x = new Float32Array( 6 );
 for ( i = 0; i < 6; i++ ) {
 	x[ i ] = i * 0.5;
 }
-mat = matrix( x, [3,2], 'int16' );
+mat = matrix( x, [3,2], 'float32' );
 /*
 	[ 0  0.5
 	  1  1.5

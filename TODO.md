@@ -1,5 +1,8 @@
 TODO
 ====
 
-1. deep close to as sep mod
+1. validate.io
+	-	close to
+	-	undefined or null
+	- 	deep close to
 2. 
