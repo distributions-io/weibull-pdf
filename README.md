@@ -1,18 +1,18 @@
 Probability Density Function
 ===
-[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Dependencies][dependencies-image]][dependencies-url]
+[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][codecov-image]][codecov-url] [![Dependencies][dependencies-image]][dependencies-url]
 
 > [Weibull](https://en.wikipedia.org/wiki/Weibull_distribution) distribution probability density function (PDF).
 
 The [probability density function](https://en.wikipedia.org/wiki/Probability_density_function) (PDF) for a [Weibull](https://en.wikipedia.org/wiki/Weibull_distribution) random variable is
 
 <div class="equation" align="center" data-raw-text="
-    f(x;\lambda,k) = \begin{cases} \frac{k}{\lambda}\left (\frac{x}{\lambda} \right)^{k-1}e^{-(x/\lambda)^k} &amp; x \geq 0 \\ 0 &amp; x < 0\end{cases}" data-equation="eq:error_function">
+	f(x;\lambda,k) = \begin{cases} \frac{k}{\lambda}\left (\frac{x}{\lambda} \right)^{k-1}e^{-(x/\lambda)^k} &amp; x \geq 0 \\ 0 &amp; x < 0\end{cases}" data-equation="eq:weibull_pdf">
 	<img src="https://cdn.rawgit.com/distributions-io/weibull-pdf/142ab451150bdb73ccf5f258ddf3dcb6c59153e9/docs/img/eqn.svg" alt="Probability density function (PDF) for a Weibull distribution.">
 	<br>
 </div>
 
-where `lambda` and `k` are the respective [scale](https://en.wikipedia.org/wiki/Scale_parameter) and [shape](https://en.wikipedia.org/wiki/Shape_parameter) parameters of the distribution.
+where `lambda > 0` and `k > 0` are the respective [scale](https://en.wikipedia.org/wiki/Scale_parameter) and [shape](https://en.wikipedia.org/wiki/Shape_parameter) parameters of the distribution.
 
 
 ## Installation
@@ -84,14 +84,14 @@ The function accepts the following `options`:
 *	__path__: [deepget](https://github.com/kgryte/utils-deep-get)/[deepset](https://github.com/kgryte/utils-deep-set) key path.
 *	__sep__: [deepget](https://github.com/kgryte/utils-deep-get)/[deepset](https://github.com/kgryte/utils-deep-set) key path separator. Default: `'.'`.
 
-A [Weibull](https://en.wikipedia.org/wiki/Weibull_distribution) distribution is a function of two parameters: `lambda` ([scale](https://en.wikipedia.org/wiki/Scale_parameter) parameter) and `k` ([shape](https://en.wikipedia.org/wiki/Shape_parameter) parameter). By default, both parameters are equal to `1`. To adjust either parameter, set the corresponding option(s).
+A [Weibull](https://en.wikipedia.org/wiki/Weibull_distribution) distribution is a function of two parameters: `lambda > 0` ([scale](https://en.wikipedia.org/wiki/Scale_parameter) parameter) and `k > 0` ([shape](https://en.wikipedia.org/wiki/Shape_parameter) parameter). By default, both parameters are equal to `1`. To adjust either parameter, set the corresponding option(s).
 
 ``` javascript
 var x = [ 0, 0.5, 1, 1.5, 2, 2.5 ];
 
 var out = pdf( x, {
 	'lambda': 2,
-	'k': 5	
+	'k': 5
 });
 // returns [ 0, ~0.0098, ~0.1514, ~0.6239, ~0.9197, ~0.2885 ]
 ```
@@ -131,7 +131,10 @@ var data = [
 	{'x':[5,2.5]}
 ];
 
-var out = pdf( data, 'x|1', '|' );
+var out = pdf( data, {
+	'path': 'x|1',
+	'sep': '|'
+});
 /*
 	[
 		{'x':[0,1]},
@@ -386,8 +389,8 @@ Copyright &copy; 2015. The [Compute.io](https://github.com/compute-io) Authors.
 [travis-image]: http://img.shields.io/travis/distributions-io/weibull-pdf/master.svg
 [travis-url]: https://travis-ci.org/distributions-io/weibull-pdf
 
-[coveralls-image]: https://img.shields.io/coveralls/distributions-io/weibull-pdf/master.svg
-[coveralls-url]: https://coveralls.io/r/distributions-io/weibull-pdf?branch=master
+[codecov-image]: https://img.shields.io/codecov/c/github/distributions-io/weibull-pdf/master.svg
+[codecov-url]: https://codecov.io/github/distributions-io/weibull-pdf?branch=master
 
 [dependencies-image]: http://img.shields.io/david/distributions-io/weibull-pdf.svg
 [dependencies-url]: https://david-dm.org/distributions-io/weibull-pdf
